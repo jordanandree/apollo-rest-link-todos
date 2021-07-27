@@ -3,6 +3,10 @@ body {
   color: white;
 }
 
+.App {
+  padding: 1rem;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

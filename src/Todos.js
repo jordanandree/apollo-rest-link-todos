@@ -1,5 +1,5 @@
-import { useQuery } from '@apollo/client';
-import { AllTodosQuery } from './queries';
+import { useQuery } from "@apollo/client";
+import { AllTodosQuery } from "./queries";
 
 const Todos = () => {
   const { data, loading, error } = useQuery(AllTodosQuery);
@@ -9,14 +9,25 @@ const Todos = () => {
   }
 
   if (error) {
-    return <p>Error loading todos:<br />{error.message}</p>;
+    return (
+      <p>
+        Error loading todos:
+        <br />
+        {error.message}
+      </p>
+    );
   }
 
-  return <ul>
-    {data.todos.map((todo) => {
-      return <li key={todo.id}>{todo.title}</li>;
-    })}
-  </ul>
-}
+  return (
+    <>
+      <h2>All Todos</h2>
+      <ul>
+        {data.todos.map((todo) => {
+          return <li key={todo.uuid}>{todo.title}</li>;
+        })}
+      </ul>
+    </>
+  );
+};
 
 export default Todos;
