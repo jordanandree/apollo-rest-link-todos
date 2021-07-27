@@ -1,7 +1,7 @@
 module.exports = {
   createError: (message, status) => {
     if (!message) {
-      message = "Internal server error";
+      message = 'Internal server error';
       status = 500;
     }
 

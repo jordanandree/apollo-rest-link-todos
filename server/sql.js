@@ -21,7 +21,11 @@ const UPDATE_TODO = `
 
 const GET_TODO = `
   SELECT * FROM todos WHERE id = ?
-  `;
+    `;
+
+const DELETE_TODO = `
+  DELETE FROM todos WHERE id = ?
+`;
 
 module.exports = {
   CREATE_TODOS_TABLE,
@@ -29,4 +33,5 @@ module.exports = {
   CREATE_TODO,
   UPDATE_TODO,
   GET_TODO,
+  DELETE_TODO,
 };

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const AllTodosQuery = gql`
   query AllTodosQuery {
@@ -35,6 +35,15 @@ export const UpdateTodoMutation = gql`
       id
       title
       completed
+    }
+  }
+`;
+
+export const DeleteTodoMutation = gql`
+  mutation DeleteTodo($id: ID!) {
+    deleteTodo(id: $id)
+      @rest(type: "Todo", path: "/todos/{args.id}", method: "DELETE") {
+      NoResponse
     }
   }
 `;

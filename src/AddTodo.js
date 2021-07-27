@@ -1,40 +1,48 @@
-import { useMutation } from "@apollo/client";
-import { useState } from "react";
-import { AllTodosQuery, CreateTodoMutation } from "./queries";
+import { useMutation } from '@apollo/client';
+import { Box, Button, Flex, Input, useToast } from '@chakra-ui/react';
+import { useState } from 'react';
+
+import { AllTodosQuery, CreateTodoMutation } from './queries';
 
 const AddTodo = () => {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const [addTodo, { error }] = useMutation(CreateTodoMutation, {
     refetchQueries: [{ query: AllTodosQuery }],
   });
+  const toast = useToast();
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     addTodo({ variables: { input: { title } } });
-    setTitle("");
+    setTitle('');
+    toast({
+      title: 'Todo added',
+      status: 'success',
+    });
   };
 
   if (error) {
-    return (
-      <p>
-        Error creating todo:
-        <br />
-        {error.message}
-      </p>
-    );
+    toast({
+      title: 'Error creating todo',
+      description: error.message,
+      status: 'error',
+    });
   }
 
   return (
-    <>
-      <h2>Add Todo</h2>
-      <input type="text" value={title} onChange={handleTitleChange} />
-      <button type="button" onClick={handleSubmit}>
-        Add
-      </button>
-    </>
+    <Box marginY="4">
+      <Flex marginTop="2" as="form" onSubmit={handleSubmit}>
+        <Input type="text" value={title} onChange={handleTitleChange} />
+        <Button type="button" onClick={handleSubmit} marginLeft="2">
+          Add Todo
+        </Button>
+      </Flex>
+    </Box>
   );
 };
 

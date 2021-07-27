@@ -1,17 +1,21 @@
-import { ApolloProvider } from "@apollo/client";
-import { client } from "./utils/client";
+import { ApolloProvider } from '@apollo/client';
+import { ChakraProvider, Container } from '@chakra-ui/react';
 
-import "./App.css";
-import Todos from "./Todos";
-import AddTodo from "./AddTodo";
+import AddTodo from './AddTodo';
+import Navigation from './Navigation';
+import Todos from './Todos';
+import { client } from './utils/client';
 
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <AddTodo />
-        <Todos />
-      </div>
+      <ChakraProvider>
+        <Navigation />
+        <Container>
+          <AddTodo />
+          <Todos />
+        </Container>
+      </ChakraProvider>
     </ApolloProvider>
   );
 }

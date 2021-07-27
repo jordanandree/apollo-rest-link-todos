@@ -1,10 +1,10 @@
-const express = require("express");
-const pino = require("express-pino-logger")();
-const sqlite3 = require("sqlite3").verbose();
-const { v4: uuidv4 } = require("uuid");
+const express = require('express');
+const pino = require('express-pino-logger')();
+const sqlite3 = require('sqlite3').verbose();
+const { v4: uuidv4 } = require('uuid');
 
 const PORT = 5000;
-const db = new sqlite3.Database("./server/db.sqlite3");
+const db = new sqlite3.Database('./server/db.sqlite3');
 
 const {
   CREATE_TODOS_TABLE,
@@ -12,8 +12,9 @@ const {
   CREATE_TODO,
   UPDATE_TODO,
   GET_TODO,
-} = require("./server/sql");
-const { createError } = require("./server/errors");
+  DELETE_TODO,
+} = require('./server/sql');
+const { createError } = require('./server/errors');
 
 const initApp = () => {
   const app = express();
@@ -27,11 +28,11 @@ const initApp = () => {
         return console.log(err);
       }
 
-      console.log("Successfully created `todos` table");
+      console.log('Successfully created `todos` table');
     });
   });
 
-  app.get("/api/todos", (req, res) => {
+  app.get('/api/todos', (req, res) => {
     db.all(ALL_TODOS, [], (err, rows) => {
       if (err) {
         req.log.error(err);
@@ -42,13 +43,13 @@ const initApp = () => {
     });
   });
 
-  app.post("/api/todos", (req, res) => {
+  app.post('/api/todos', (req, res) => {
     const { title } = req.body;
 
     if (!title) {
       return res
         .status(400)
-        .send(createError("Missing `title` param in body", 400));
+        .send(createError('Missing `title` param in body', 400));
     }
     const id = uuidv4();
 
@@ -65,7 +66,7 @@ const initApp = () => {
     });
   });
 
-  app.put("/api/todos/:id", (req, res) => {
+  app.put('/api/todos/:id', (req, res) => {
     const { completed } = req.body;
     const { id } = req.params;
 
@@ -93,8 +94,20 @@ const initApp = () => {
     });
   });
 
+  app.delete('/api/todos/:id', (req, res) => {
+    const { id } = req.params;
+    db.run(DELETE_TODO, [id], (err) => {
+      if (err) {
+        req.log.error(err);
+        return res.status(500).send(createError());
+      }
+
+      res.status(204).send();
+    });
+  });
+
   app.listen(PORT, () => {
-    console.log("Server running on http://localhost:%s", PORT);
+    console.log('Server running on http://localhost:%s', PORT);
   });
 };
 
