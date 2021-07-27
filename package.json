@@ -1,17 +1,35 @@
 {
   "name": "apollo-rest-link-zero-content-length",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Jordan Andree <jordanandree@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "node-env-run": "^4.0.2",
+    "nodemon": "^2.0.12",
+    "npm-run-all": "^4.1.5"
+  },
   "dependencies": {
+    "@apollo/client": "^3.3.21",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "apollo-link-rest": "^0.8.0-beta.0",
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "express-pino-logger": "^6.0.0",
+    "graphql": "^15.5.1",
+    "graphql-anywhere": "^4.2.7",
+    "qs": "^6.10.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
   },
+  "proxy": "http://localhost:5000",
   "scripts": {
+    "dev": "run-p server start",
+    "server": "node server.js --exec nodemon",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
