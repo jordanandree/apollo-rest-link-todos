@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 
 export const AllTodosQuery = gql`
   query AllTodosQuery {
-    todos @rest(type: "Todo", path: "todos") {
-      uuid
+    allTodos @rest(type: "Todo", path: "/todos") {
+      id
       title
       completed
     }
@@ -11,14 +11,30 @@ export const AllTodosQuery = gql`
 `;
 
 export const CreateTodoMutation = gql`
-  fragment TodoPayload on REST {
+  fragment NewTodoPayload on REST {
     title: String
   }
 
-  mutation AddTodo($input: TodoPayload!) {
-    todo(input: $input) @rest(type: "Todo", path: "todos", method: "POST") {
-      uuid
+  mutation AddTodo($input: NewTodoPayload!) {
+    todo(input: $input) @rest(type: "Todo", path: "/todos", method: "POST") {
+      id
       title
+    }
+  }
+`;
+
+export const UpdateTodoMutation = gql`
+  fragment UpdateTodoPayload on REST {
+    title: String
+    completed: Boolean
+  }
+
+  mutation UpdateTodo($id: ID!, $input: UpdateTodoPayload!) {
+    updateTodo(id: $id, input: $input)
+      @rest(type: "Todo", path: "/todos/{args.id}", method: "PUT") {
+      id
+      title
+      completed
     }
   }
 `;

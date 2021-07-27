@@ -13,7 +13,7 @@ const AddTodo = () => {
   };
 
   const handleSubmit = () => {
-    addTodo({ variables: { input: { userId: 9, title } } });
+    addTodo({ variables: { input: { title } } });
     setTitle("");
   };
 

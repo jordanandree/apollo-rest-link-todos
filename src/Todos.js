@@ -1,6 +1,8 @@
 import { useQuery } from "@apollo/client";
 import { AllTodosQuery } from "./queries";
 
+import Todo from "./Todo";
+
 const Todos = () => {
   const { data, loading, error } = useQuery(AllTodosQuery);
 
@@ -21,9 +23,16 @@ const Todos = () => {
   return (
     <>
       <h2>All Todos</h2>
-      <ul>
-        {data.todos.map((todo) => {
-          return <li key={todo.uuid}>{todo.title}</li>;
+      <ul style={{ padding: 0 }}>
+        {data.allTodos.map((todo) => {
+          return (
+            <Todo
+              key={todo.id}
+              id={todo.id}
+              title={todo.title}
+              completed={todo.completed}
+            />
+          );
         })}
       </ul>
     </>
